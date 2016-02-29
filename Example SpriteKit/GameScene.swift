@@ -14,14 +14,50 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var gameOver = false
     var didRunGameOverSequence = false
 
+    let playerCategory: UInt32 = 1 << 0
+    let platformCategory: UInt32 = 1 << 1
+    
     var createPlatformCounter = 0
     var createPlatformDelay: Int?
     var platformWidth: Int?
     var platformHeight: Int?
 
-    let playerCategory: UInt32 = 0x1 << 0
-    let platformCategory: UInt32 = 0x1 << 1
-
+    var randomDelay: Int {
+        get {
+            var rd: UInt32
+            
+            repeat {
+                rd = arc4random() % MAX_DELAY
+            } while rd < MIN_DELAY
+            
+            return Int(rd)
+        }
+    }
+    
+    var randomPlatformWidth: Int {
+        get {
+            var rpw: UInt32
+            
+            repeat {
+                rpw = arc4random() % MAX_PLATFORM_WIDTH
+            } while rpw < MIN_PLATFORM_WIDTH
+            
+            return Int(rpw)
+        }
+    }
+    
+    var randomPlatformHeight: Int {
+        get {
+            var rph: UInt32
+            
+            repeat {
+                rph = arc4random() % MAX_PLATFORM_WIDTH
+            } while rph < MIN_PLATFORM_HEIGHT
+            
+            return Int(rph)
+        }
+    }
+    
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
 
@@ -29,6 +65,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         createPlatformSpriteInitial(true)
         createPlayerSprite()
         setUpPhysicsWorld()
+        setUpLight()
         setUpHUD()
     }
 
@@ -73,8 +110,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         } else {
 
-            platformWidth = generateRandomPlatformWidth()
-            platformHeight = generateRandomPlatformHeight()
+            platformWidth = randomPlatformWidth
+            platformHeight = randomPlatformHeight
 
             for var i = 0; i < platformWidth; i++ {
                 for var j = 0; j < platformHeight; j++ {
@@ -119,6 +156,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             playerSprite.physicsBody?.linearDamping = 0.0
             playerSprite.physicsBody?.allowsRotation = false
             playerSprite.physicsBody?.usesPreciseCollisionDetection = true
+            
+            // TODO: Add Lighting Bit Masks
+            playerSprite.shadowCastBitMask = 1
+            playerSprite.lightingBitMask = 1
 
             addChild(playerSprite)
         }
@@ -128,6 +169,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.contactDelegate = self
     }
 
+    func setUpLight() {
+        let lightNode = SKLightNode()
+        lightNode.position = CGPoint(x: view!.frame.size.width * 0.5, y: view!.frame.size.height * 0.75)
+        lightNode.zPosition = 1
+        lightNode.categoryBitMask = 1
+        lightNode.falloff = 0.5
+        lightNode.ambientColor = UIColor.whiteColor()
+        lightNode.shadowColor = UIColor(red: 0.25, green: 0.25, blue: 0.25, alpha: 0.5)
+        lightNode.name = "lightNode"
+        
+        addChild(lightNode)
+    }
+    
     func setUpHUD() {
         let playLabel = SKLabelNode(fontNamed: FONT_NAME)
         playLabel.text = "TAP TO START"
@@ -158,46 +212,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 playerSprite.run()
             }
         }
-    }
-
-    func generateRandomDuration() -> Int {
-        var randomDuration: UInt32
-
-        repeat {
-            randomDuration = arc4random() % MAX_DURATION
-        } while randomDuration < MIN_DURATION
-
-        return Int(randomDuration)
-    }
-
-    func generateRandomDelay() -> Int {
-        var randomDelay: UInt32
-
-        repeat {
-            randomDelay = arc4random() % MAX_DELAY
-        } while randomDelay < MIN_DELAY
-
-        return Int(randomDelay)
-    }
-
-    func generateRandomPlatformWidth() -> Int {
-        var randomPlatformWidth: UInt32
-
-        repeat {
-            randomPlatformWidth = arc4random() % MAX_PLATFORM_WIDTH
-        } while randomPlatformWidth < MIN_PLATFORM_WIDTH
-
-        return Int(randomPlatformWidth)
-    }
-
-    func generateRandomPlatformHeight() -> Int {
-        var randomPlatformHeight: UInt32
-
-        repeat {
-            randomPlatformHeight = arc4random() % MAX_PLATFORM_WIDTH
-        } while randomPlatformHeight < MIN_PLATFORM_HEIGHT
-
-        return Int(randomPlatformHeight)
     }
 
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -271,7 +285,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
             if (createPlatformCounter > createPlatformDelay) {
                 createPlatformCounter = 0
-                createPlatformDelay = generateRandomDelay()
+                createPlatformDelay = randomDelay
                 
                 createPlatformSpriteInitial(false)
             }
