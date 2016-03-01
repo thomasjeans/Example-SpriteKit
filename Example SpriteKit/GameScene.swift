@@ -171,9 +171,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         lightNode.position = CGPoint(x: view!.frame.size.width * 0.5, y: view!.frame.size.height * 0.75)
         lightNode.zPosition = 1
         lightNode.categoryBitMask = 1
-        lightNode.falloff = 0.5
+        lightNode.falloff = 1.0
         lightNode.ambientColor = UIColor.whiteColor()
-        lightNode.shadowColor = UIColor(red: 0.25, green: 0.25, blue: 0.25, alpha: 0.5)
+        lightNode.shadowColor = UIColor(red: 0.25, green: 0.25, blue: 0.25, alpha: 0.25)
         lightNode.name = "lightNode"
         
         addChild(lightNode)
