@@ -61,12 +61,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
 
+        physicsWorld.contactDelegate = self
+        
         createBackgroundSprites()
         createPlatformSpriteInitial(true)
         createPlayerSprite()
-        setUpPhysicsWorld()
-        setUpLight()
         setUpHUD()
+        setUpLight()
     }
 
     func createBackgroundSprites() {
@@ -165,10 +166,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
 
-    func setUpPhysicsWorld() {
-        physicsWorld.contactDelegate = self
-    }
-
     func setUpLight() {
         let lightNode = SKLightNode()
         lightNode.position = CGPoint(x: view!.frame.size.width * 0.5, y: view!.frame.size.height * 0.75)
@@ -264,6 +261,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
 
+    func createPlatformsForUpdate() {
+        createPlatformCounter++
+        
+        if (createPlatformCounter > createPlatformDelay) {
+            createPlatformCounter = 0
+            createPlatformDelay = randomDelay
+            
+            createPlatformSpriteInitial(false)
+        }
+    }
+    
     func checkPlayerStateForUpdate() {
         if let playerSprite = childNodeWithName("playerSprite") {
             if playerSprite.position.y < -playerSprite.position.y {
@@ -279,21 +287,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
             scrollBackgroundForUpdate()
             scrollPlatformsForUpdate()
+            createPlatformsForUpdate()
             checkPlayerStateForUpdate()
-
-            createPlatformCounter++
-
-            if (createPlatformCounter > createPlatformDelay) {
-                createPlatformCounter = 0
-                createPlatformDelay = randomDelay
-                
-                createPlatformSpriteInitial(false)
-            }
         }
         
         if gameOver && !didRunGameOverSequence {
             gameOverSequence()
         }
-        
     }
 }
