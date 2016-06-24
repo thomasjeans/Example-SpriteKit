@@ -21,7 +21,7 @@ class PlayerSpriteNode: SKSpriteNode {
     func run() {
         jumpCount = 0
 
-        actionCount++
+        actionCount += 1
 
         if actionCount <= MAX_ACTIONS_ALLOWED {
             runAction(SKAction.repeatActionForever(SKAction.animateWithTextures([runCycleTexture0, runCycleTexture1, runCycleTexture2, runCycleTexture3], timePerFrame: 0.125)))
@@ -31,7 +31,7 @@ class PlayerSpriteNode: SKSpriteNode {
     func jump() {
         actionCount = 0
 
-        jumpCount++
+        jumpCount += 1
 
         if jumpCount <= MAX_JUMPS_ALLOWED {
             removeAllActions()

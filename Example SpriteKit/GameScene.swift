@@ -19,8 +19,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var createPlatformCounter = 0
     var createPlatformDelay: Int?
-    var platformWidth: Int?
-    var platformHeight: Int?
+    var platformWidth: Int = 0
+    var platformHeight: Int = 0
 
     var randomDelay: Int {
         get {
@@ -71,7 +71,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     func createBackgroundSprites() {
-        for var i = 0; i < 2; i++ {
+        for i in 0..<2 {
             let backgroundSprite = SKSpriteNode(imageNamed: "es-background")
             backgroundSprite.size = CGSizeMake(frame.size.width, frame.size.height)
             backgroundSprite.anchorPoint = CGPointZero
@@ -84,9 +84,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     func createPlatformSpriteInitial(initial: Bool) {
-        if initial == true {
-            for var i = 0; i < INITIAL_PLATFORM_WIDTH; i++ {
-                for var j = 0; j < INITIAL_PLATFORM_HEIGHT; j++ {
+        if initial {
+            for i in 0..<INITIAL_PLATFORM_WIDTH {
+                for j in 0..<INITIAL_PLATFORM_HEIGHT {
                     let platformTile = SKSpriteNode(imageNamed: "es-tile")
                     platformTile.anchorPoint = CGPointZero
                     platformTile.position = CGPointMake(platformTile.frame.size.width * CGFloat(i), platformTile.frame.size.height * CGFloat(j))
@@ -114,8 +114,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             platformWidth = randomPlatformWidth
             platformHeight = randomPlatformHeight
 
-            for var i = 0; i < platformWidth; i++ {
-                for var j = 0; j < platformHeight; j++ {
+            for i in 0..<platformWidth {
+                for j in 0..<platformHeight {
                     let platformTile = SKSpriteNode(imageNamed: "es-tile")
                     platformTile.anchorPoint = CGPointZero
                     platformTile.position = CGPointMake(frame.size.width + (platformTile.frame.size.width * CGFloat(i)), platformTile.frame.size.height * CGFloat(j))
@@ -262,7 +262,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     func createPlatformsForUpdate() {
-        createPlatformCounter++
+        createPlatformCounter += 1
         
         if (createPlatformCounter > createPlatformDelay) {
             createPlatformCounter = 0

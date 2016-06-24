@@ -84,6 +84,65 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8D0646151D1DA1A100AD5680 /* App Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				8DEC4CDF1C59B14000F445A5 /* AppDelegate.swift */,
+			);
+			name = "App Delegate";
+			sourceTree = "<group>";
+		};
+		8D0646161D1DA1AF00AD5680 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				8DEC4CEC1C59B14000F445A5 /* LaunchScreen.storyboard */,
+				8DEC4CE71C59B14000F445A5 /* Main.storyboard */,
+			);
+			name = Storyboards;
+			sourceTree = "<group>";
+		};
+		8D0646171D1DA1BD00AD5680 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				8DEC4CE51C59B14000F445A5 /* GameViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		8D0646181D1DA1CF00AD5680 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				8DEC4CE11C59B14000F445A5 /* GameScene.sks */,
+				8DEC4CE31C59B14000F445A5 /* GameScene.swift */,
+			);
+			name = Scenes;
+			sourceTree = "<group>";
+		};
+		8D0646191D1DA1DA00AD5680 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8DEC4D141C59B1EB00F445A5 /* PlayerSpriteNode.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		8D06461A1D1DA20C00AD5680 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8DEC4D121C59B1DD00F445A5 /* Constants.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		8D06461B1D1DA24200AD5680 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8DEC4CEA1C59B14000F445A5 /* Assets.xcassets */,
+				8DEC4D161C59B25100F445A5 /* es-jump.m4a */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		8DEC4CD31C59B14000F445A5 = {
 			isa = PBXGroup;
 			children = (
@@ -107,12 +166,13 @@
 		8DEC4CDE1C59B14000F445A5 /* Example SpriteKit */ = {
 			isa = PBXGroup;
 			children = (
-				8DEC4CDF1C59B14000F445A5 /* AppDelegate.swift */,
-				8DEC4D121C59B1DD00F445A5 /* Constants.swift */,
-				8DEC4CE71C59B14000F445A5 /* Main.storyboard */,
-				8DEC4CE51C59B14000F445A5 /* GameViewController.swift */,
-				8DEC4CE31C59B14000F445A5 /* GameScene.swift */,
-				8DEC4D141C59B1EB00F445A5 /* PlayerSpriteNode.swift */,
+				8D0646151D1DA1A100AD5680 /* App Delegate */,
+				8D06461A1D1DA20C00AD5680 /* Models */,
+				8D0646191D1DA1DA00AD5680 /* Views */,
+				8D0646171D1DA1BD00AD5680 /* Controllers */,
+				8D0646181D1DA1CF00AD5680 /* Scenes */,
+				8D0646161D1DA1AF00AD5680 /* Storyboards */,
+				8D06461B1D1DA24200AD5680 /* Resources */,
 				8DEC4D111C59B14F00F445A5 /* Supporting Files */,
 			);
 			path = "Example SpriteKit";
@@ -139,10 +199,6 @@
 		8DEC4D111C59B14F00F445A5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				8DEC4CE11C59B14000F445A5 /* GameScene.sks */,
-				8DEC4CEC1C59B14000F445A5 /* LaunchScreen.storyboard */,
-				8DEC4CEA1C59B14000F445A5 /* Assets.xcassets */,
-				8DEC4D161C59B25100F445A5 /* es-jump.m4a */,
 				8DEC4CEF1C59B14000F445A5 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -216,6 +272,7 @@
 				TargetAttributes = {
 					8DEC4CDB1C59B14000F445A5 = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = 8ZAC438FXF;
 					};
 					8DEC4CF31C59B14100F445A5 = {
 						CreatedOnToolsVersion = 7.2;
@@ -427,6 +484,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = "Example SpriteKit/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jeansapplications.Example-SpriteKit";
@@ -438,6 +496,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = "Example SpriteKit/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jeansapplications.Example-SpriteKit";
@@ -514,6 +573,7 @@
 				8DEC4D0A1C59B14100F445A5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8DEC4D0B1C59B14100F445A5 /* Build configuration list for PBXNativeTarget "Example SpriteKitTests" */ = {
 			isa = XCConfigurationList;
@@ -522,6 +582,7 @@
 				8DEC4D0D1C59B14100F445A5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8DEC4D0E1C59B14100F445A5 /* Build configuration list for PBXNativeTarget "Example SpriteKitUITests" */ = {
 			isa = XCConfigurationList;
@@ -530,6 +591,7 @@
 				8DEC4D101C59B14100F445A5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
