@@ -58,13 +58,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         /* Setup your scene here */
 
         physicsWorld.contactDelegate = self
         
         createBackgroundSprites()
-        createPlatformSpriteInitial(true)
+        createPlatformSprite(initial: true)
         createPlayerSprite()
         setUpHUD()
         setUpLight()
@@ -73,9 +73,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func createBackgroundSprites() {
         for i in 0..<2 {
             let backgroundSprite = SKSpriteNode(imageNamed: "es-background")
-            backgroundSprite.size = CGSizeMake(frame.size.width, frame.size.height)
-            backgroundSprite.anchorPoint = CGPointZero
-            backgroundSprite.position = CGPointMake(frame.size.width * CGFloat(i), 0)
+            backgroundSprite.size = CGSize(width: frame.size.width, height: frame.size.height)
+            
+            backgroundSprite.anchorPoint = CGPoint.zero
+            backgroundSprite.position = CGPoint(x: frame.size.width * CGFloat(i), y: 0)
             backgroundSprite.zPosition = 0
             backgroundSprite.name = "backgroundSprite"
 
@@ -83,19 +84,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
 
-    func createPlatformSpriteInitial(initial: Bool) {
+    func createPlatformSprite(initial: Bool) {
         if initial {
             for i in 0..<INITIAL_PLATFORM_WIDTH {
                 for j in 0..<INITIAL_PLATFORM_HEIGHT {
                     let platformTile = SKSpriteNode(imageNamed: "es-tile")
-                    platformTile.anchorPoint = CGPointZero
-                    platformTile.position = CGPointMake(platformTile.frame.size.width * CGFloat(i), platformTile.frame.size.height * CGFloat(j))
+                    platformTile.anchorPoint = CGPoint.zero
+                    platformTile.position = CGPoint(x: platformTile.frame.size.width * CGFloat(i), y: platformTile.frame.size.height * CGFloat(j))
                     platformTile.zPosition = 1
                     platformTile.name = "platformTileSprite"
 
                     // TODO: Add Physics Body
-                    platformTile.physicsBody = SKPhysicsBody(rectangleOfSize: platformTile.size, center: CGPointMake(platformTile.frame.width * 0.5, platformTile.frame.height * 0.5))
-                    platformTile.physicsBody?.dynamic = false
+                    platformTile.physicsBody = SKPhysicsBody(rectangleOf: platformTile.size, center: CGPoint(x: platformTile.frame.width * 0.5, y: platformTile.frame.height * 0.5))
+                    platformTile.physicsBody?.isDynamic = false
                     platformTile.physicsBody?.affectedByGravity = false
                     platformTile.physicsBody?.restitution = 0.125
                     platformTile.physicsBody?.linearDamping = 0.0
@@ -117,14 +118,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             for i in 0..<platformWidth {
                 for j in 0..<platformHeight {
                     let platformTile = SKSpriteNode(imageNamed: "es-tile")
-                    platformTile.anchorPoint = CGPointZero
-                    platformTile.position = CGPointMake(frame.size.width + (platformTile.frame.size.width * CGFloat(i)), platformTile.frame.size.height * CGFloat(j))
+                    platformTile.anchorPoint = CGPoint.zero
+                    platformTile.position = CGPoint(x: frame.size.width + (platformTile.frame.size.width * CGFloat(i)), y: platformTile.frame.size.height * CGFloat(j))
                     platformTile.zPosition = 1
                     platformTile.name = "platformTileSprite"
 
                     // TODO: Add Physics Body
-                    platformTile.physicsBody = SKPhysicsBody(rectangleOfSize: platformTile.size, center: CGPointMake(platformTile.frame.width * 0.5, platformTile.frame.height * 0.5))
-                    platformTile.physicsBody?.dynamic = false
+                    platformTile.physicsBody = SKPhysicsBody(rectangleOf: platformTile.size, center: CGPoint(x: platformTile.frame.width * 0.5, y: platformTile.frame.height * 0.5))
+                    platformTile.physicsBody?.isDynamic = false
                     platformTile.physicsBody?.affectedByGravity = false
                     platformTile.physicsBody?.restitution = 0.125
                     platformTile.physicsBody?.linearDamping = 0.0
@@ -141,17 +142,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     func createPlayerSprite() {
-        if let platformTile = childNodeWithName("platformTileSprite") {
+        if let platformTile = childNode(withName: "platformTileSprite") {
             let platformTileSpriteNode = platformTile as! SKSpriteNode
 
             let playerSprite = PlayerSpriteNode(imageNamed: "es-player")
-            playerSprite.position = CGPointMake(frame.size.width * 0.25, (platformTileSpriteNode.size.height * CGFloat(INITIAL_PLATFORM_HEIGHT)) + (playerSprite.size.height * 0.5))
+            playerSprite.position = CGPoint(x: frame.size.width * 0.25, y: (platformTileSpriteNode.size.height * CGFloat(INITIAL_PLATFORM_HEIGHT)) + (playerSprite.size.height * 0.5))
             playerSprite.zPosition = 1
             playerSprite.name = "playerSprite"
 
             // TODO: Add Physics Body
-            playerSprite.physicsBody = SKPhysicsBody(rectangleOfSize: playerSprite.size)
-            playerSprite.physicsBody?.dynamic = true
+            playerSprite.physicsBody = SKPhysicsBody(rectangleOf: playerSprite.size)
+            playerSprite.physicsBody?.isDynamic = true
             playerSprite.physicsBody?.affectedByGravity = true
             playerSprite.physicsBody?.restitution = 0.5
             playerSprite.physicsBody?.linearDamping = 0.0
@@ -172,7 +173,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         lightNode.zPosition = 1
         lightNode.categoryBitMask = 1
         lightNode.falloff = 1.0
-        lightNode.ambientColor = UIColor.whiteColor()
+        lightNode.ambientColor = UIColor.white()
         lightNode.shadowColor = UIColor(red: 0.25, green: 0.25, blue: 0.25, alpha: 0.25)
         lightNode.name = "lightNode"
         
@@ -183,8 +184,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let playLabel = SKLabelNode(fontNamed: FONT_NAME)
         playLabel.text = "TAP TO START"
         playLabel.fontSize = 30
-        playLabel.fontColor = UIColor.whiteColor()
-        playLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
+        playLabel.fontColor = UIColor.white()
+        playLabel.position = CGPoint(x:self.frame.midX, y:self.frame.midY)
         playLabel.zPosition = 2
         playLabel.name = "playLabel"
         addChild(playLabel)
@@ -196,65 +197,65 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let playAgainLabel = SKLabelNode(fontNamed: FONT_NAME)
         playAgainLabel.text = "PLAY AGAIN"
         playAgainLabel.fontSize = 30
-        playAgainLabel.fontColor = UIColor.whiteColor()
-        playAgainLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
+        playAgainLabel.fontColor = UIColor.white()
+        playAgainLabel.position = CGPoint(x:self.frame.midX, y:self.frame.midY)
         playAgainLabel.zPosition = 2
         playAgainLabel.name = "playAgainLabel"
         addChild(playAgainLabel)
     }
 
     func didBeginContact(contact: SKPhysicsContact) {
-        if let playerSprite: PlayerSpriteNode = childNodeWithName("playerSprite") as? PlayerSpriteNode {
+        if let playerSprite: PlayerSpriteNode = childNode(withName: "playerSprite") as? PlayerSpriteNode {
             if !gameOver && gameDidStart {
                 playerSprite.run()
             }
         }
     }
 
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         /* Called when a touch begins */
-
+        
         if gameDidStart && !gameOver {
-            if let playerSprite: PlayerSpriteNode = childNodeWithName("playerSprite") as? PlayerSpriteNode {
+            if let playerSprite: PlayerSpriteNode = childNode(withName: "playerSprite") as? PlayerSpriteNode {
                 playerSprite.jump()
             }
         }
-
+        
         for touch in touches {
-            let location = touch.locationInNode(self)
-
-            if let playLabel: SKLabelNode = childNodeWithName("playLabel") as? SKLabelNode {
-                if playLabel.containsPoint(location) {
+            let location = touch.location(in: self)
+            
+            if let playLabel: SKLabelNode = childNode(withName: "playLabel") as? SKLabelNode {
+                if playLabel.contains(location) {
                     playLabel.removeFromParent()
                     gameDidStart = true
-
-                    if let playerSprite: PlayerSpriteNode = childNodeWithName("playerSprite") as? PlayerSpriteNode {
+                    
+                    if let playerSprite: PlayerSpriteNode = childNode(withName: "playerSprite") as? PlayerSpriteNode {
                         playerSprite.run()
                     }
                 }
             }
-
-            if let playAgainLabel: SKLabelNode = childNodeWithName("playAgainLabel") as? SKLabelNode {
-                if playAgainLabel.containsPoint(location) {
+            
+            if let playAgainLabel: SKLabelNode = childNode(withName: "playAgainLabel") as? SKLabelNode {
+                if playAgainLabel.contains(location) {
                     let newGameScene: GameScene = GameScene(size: size)
-                    view?.presentScene(newGameScene, transition: SKTransition.fadeWithDuration(0.5))
+                    view?.presentScene(newGameScene, transition: SKTransition.fade(withDuration: 0.5))
                 }
             }
         }
     }
 
     func scrollBackgroundForUpdate() {
-        enumerateChildNodesWithName("backgroundSprite") { (node, _) -> Void in
-            node.position = CGPointMake(node.position.x - BACKGROUND_SPRITE_SCROLL_RATE, node.position.y)
+        enumerateChildNodes(withName: "backgroundSprite") { (node, _) -> Void in
+            node.position = CGPoint(x: node.position.x - BACKGROUND_SPRITE_SCROLL_RATE, y: node.position.y)
             if node.position.x <= -self.frame.size.width {
-                node.position = CGPointMake(node.position.x + self.frame.size.width * 2, node.position.y)
+                node.position = CGPoint(x: node.position.x + self.frame.size.width * 2, y: node.position.y)
             }
         }
     }
 
     func scrollPlatformsForUpdate() {
-        enumerateChildNodesWithName("platformTileSprite") { (node, _) -> Void in
-            node.position = CGPointMake(node.position.x - PLATFORM_TILE_SPRITE_SCROLL_RATE, node.position.y)
+        enumerateChildNodes(withName: "platformTileSprite") { (node, _) -> Void in
+            node.position = CGPoint(x: node.position.x - PLATFORM_TILE_SPRITE_SCROLL_RATE, y: node.position.y)
             if node.position.x < -node.frame.size.width {
                 node .removeFromParent()
             }
@@ -268,19 +269,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             createPlatformCounter = 0
             createPlatformDelay = randomDelay
             
-            createPlatformSpriteInitial(false)
+            createPlatformSprite(initial: false)
         }
     }
     
     func checkPlayerStateForUpdate() {
-        if let playerSprite = childNodeWithName("playerSprite") {
+        if let playerSprite = childNode(withName: "playerSprite") {
             if playerSprite.position.y < -playerSprite.position.y {
                 gameOver = true
             }
         }
     }
 
-    override func update(currentTime: CFTimeInterval) {
+    override func update(_ currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
 
         if gameDidStart && !gameOver {

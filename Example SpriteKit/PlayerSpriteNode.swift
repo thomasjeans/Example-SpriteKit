@@ -24,7 +24,7 @@ class PlayerSpriteNode: SKSpriteNode {
         actionCount += 1
 
         if actionCount <= MAX_ACTIONS_ALLOWED {
-            runAction(SKAction.repeatActionForever(SKAction.animateWithTextures([runCycleTexture0, runCycleTexture1, runCycleTexture2, runCycleTexture3], timePerFrame: 0.125)))
+            run(SKAction.repeatForever(SKAction.animate(with: [runCycleTexture0, runCycleTexture1, runCycleTexture2, runCycleTexture3], timePerFrame: 0.125)))
         }
     }
 
@@ -36,8 +36,8 @@ class PlayerSpriteNode: SKSpriteNode {
         if jumpCount <= MAX_JUMPS_ALLOWED {
             removeAllActions()
             texture = SKTexture(imageNamed: "es-player-jump")
-            physicsBody?.velocity = CGVectorMake(JUMP_VELOCITY_DX, JUMP_VELOCITY_DY)
-            runAction(SKAction.playSoundFileNamed("es-jump.m4a", waitForCompletion: false))
+            physicsBody?.velocity = CGVector(dx: JUMP_VELOCITY_DX, dy: JUMP_VELOCITY_DY)
+            run(SKAction.playSoundFileNamed("es-jump.m4a", waitForCompletion: false))
         }
     }
 }
