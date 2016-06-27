@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8D29F52B1D204E4C008096C9 /* PressStart2P.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8D29F52A1D204E4C008096C9 /* PressStart2P.ttf */; };
 		8DEC4CE01C59B14000F445A5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DEC4CDF1C59B14000F445A5 /* AppDelegate.swift */; };
 		8DEC4CE21C59B14000F445A5 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 8DEC4CE11C59B14000F445A5 /* GameScene.sks */; };
 		8DEC4CE41C59B14000F445A5 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DEC4CE31C59B14000F445A5 /* GameScene.swift */; };
@@ -39,6 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8D29F52A1D204E4C008096C9 /* PressStart2P.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = PressStart2P.ttf; sourceTree = "<group>"; };
 		8DEC4CDC1C59B14000F445A5 /* Example SpriteKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Example SpriteKit.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DEC4CDF1C59B14000F445A5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8DEC4CE11C59B14000F445A5 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 			children = (
 				8DEC4CEA1C59B14000F445A5 /* Assets.xcassets */,
 				8DEC4D161C59B25100F445A5 /* es-jump.m4a */,
+				8D29F52A1D204E4C008096C9 /* PressStart2P.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -312,6 +315,7 @@
 				8DEC4D171C59B3BC00F445A5 /* es-jump.m4a in Resources */,
 				8DEC4CE21C59B14000F445A5 /* GameScene.sks in Resources */,
 				8DEC4CEE1C59B14000F445A5 /* LaunchScreen.storyboard in Resources */,
+				8D29F52B1D204E4C008096C9 /* PressStart2P.ttf in Resources */,
 				8DEC4CEB1C59B14000F445A5 /* Assets.xcassets in Resources */,
 				8DEC4CE91C59B14000F445A5 /* Main.storyboard in Resources */,
 			);

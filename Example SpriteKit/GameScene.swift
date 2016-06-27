@@ -8,7 +8,8 @@
 
 import SpriteKit
 
-class GameScene: SKScene, SKPhysicsContactDelegate {
+// MARK: Base Class Definition
+class GameScene: SKScene {
 
     var gameDidStart = false
     var gameOver = false
@@ -17,45 +18,42 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let playerCategory: UInt32 = 1 << 0
     let platformCategory: UInt32 = 1 << 1
     
+    var playerXScaleFactor: CGFloat = 1.0
+    var playerYScaleFactor: CGFloat = 1.0
+    
     var createPlatformCounter = 0
     var createPlatformDelay: Int?
     var platformWidth: Int = 0
     var platformHeight: Int = 0
 
     var randomDelay: Int {
-        get {
-            var rd: UInt32
-            
-            repeat {
-                rd = arc4random() % MAX_DELAY
-            } while rd < MIN_DELAY
-            
-            return Int(rd)
-        }
+        var rd: UInt32
+        
+        repeat {
+            rd = arc4random() % MAX_DELAY
+        } while rd < MIN_DELAY
+        
+        return Int(rd)
     }
     
     var randomPlatformWidth: Int {
-        get {
-            var rpw: UInt32
-            
-            repeat {
-                rpw = arc4random() % MAX_PLATFORM_WIDTH
-            } while rpw < MIN_PLATFORM_WIDTH
-            
-            return Int(rpw)
-        }
+        var rpw: UInt32
+        
+        repeat {
+            rpw = arc4random() % MAX_PLATFORM_WIDTH
+        } while rpw < MIN_PLATFORM_WIDTH
+        
+        return Int(rpw)
     }
     
     var randomPlatformHeight: Int {
-        get {
-            var rph: UInt32
-            
-            repeat {
-                rph = arc4random() % MAX_PLATFORM_WIDTH
-            } while rph < MIN_PLATFORM_HEIGHT
-            
-            return Int(rph)
-        }
+        var rph: UInt32
+        
+        repeat {
+            rph = arc4random() % MAX_PLATFORM_WIDTH
+        } while rph < MIN_PLATFORM_HEIGHT
+        
+        return Int(rph)
     }
     
     override func didMoveToView(view: SKView) {
@@ -64,12 +62,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.contactDelegate = self
         
         createBackgroundSprites()
-        createPlatformSpriteInitial(true)
+        createPlatformSprite(true)
         createPlayerSprite()
         setUpHUD()
         setUpLight()
     }
-
+    
     func createBackgroundSprites() {
         for i in 0..<2 {
             let backgroundSprite = SKSpriteNode(imageNamed: "es-background")
@@ -83,7 +81,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
 
-    func createPlatformSpriteInitial(initial: Bool) {
+    func createPlatformSprite(initial: Bool) {
         if initial {
             for i in 0..<INITIAL_PLATFORM_WIDTH {
                 for j in 0..<INITIAL_PLATFORM_HEIGHT {
@@ -147,6 +145,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let playerSprite = PlayerSpriteNode(imageNamed: "es-player")
             playerSprite.position = CGPointMake(frame.size.width * 0.25, (platformTileSpriteNode.size.height * CGFloat(INITIAL_PLATFORM_HEIGHT)) + (playerSprite.size.height * 0.5))
             playerSprite.zPosition = 1
+            playerSprite.xScale = playerXScaleFactor
+            playerSprite.yScale = playerYScaleFactor
             playerSprite.name = "playerSprite"
 
             // TODO: Add Physics Body
@@ -182,7 +182,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func setUpHUD() {
         let playLabel = SKLabelNode(fontNamed: FONT_NAME)
         playLabel.text = "TAP TO START"
-        playLabel.fontSize = 30
+        playLabel.fontSize = FONT_SIZE_TITLE
         playLabel.fontColor = UIColor.whiteColor()
         playLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
         playLabel.zPosition = 2
@@ -195,20 +195,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         let playAgainLabel = SKLabelNode(fontNamed: FONT_NAME)
         playAgainLabel.text = "PLAY AGAIN"
-        playAgainLabel.fontSize = 30
+        playAgainLabel.fontSize = FONT_SIZE_TITLE
         playAgainLabel.fontColor = UIColor.whiteColor()
         playAgainLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
         playAgainLabel.zPosition = 2
         playAgainLabel.name = "playAgainLabel"
         addChild(playAgainLabel)
-    }
-
-    func didBeginContact(contact: SKPhysicsContact) {
-        if let playerSprite: PlayerSpriteNode = childNodeWithName("playerSprite") as? PlayerSpriteNode {
-            if !gameOver && gameDidStart {
-                playerSprite.run()
-            }
-        }
     }
 
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -242,8 +234,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
+}
 
-    func scrollBackgroundForUpdate() {
+// MARK: Physics Contact Delegate
+extension GameScene: SKPhysicsContactDelegate {
+    
+    func didBeginContact(contact: SKPhysicsContact) {
+        if let playerSprite: PlayerSpriteNode = childNodeWithName("playerSprite") as? PlayerSpriteNode {
+            if !gameOver && gameDidStart {
+                playerSprite.run()
+            }
+        }
+    }
+}
+
+// MARK: Update Methods
+extension GameScene {
+    
+    func scrollBackground() {
         enumerateChildNodesWithName("backgroundSprite") { (node, _) -> Void in
             node.position = CGPointMake(node.position.x - BACKGROUND_SPRITE_SCROLL_RATE, node.position.y)
             if node.position.x <= -self.frame.size.width {
@@ -251,8 +259,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
-
-    func scrollPlatformsForUpdate() {
+    
+    func scrollPlatforms() {
         enumerateChildNodesWithName("platformTileSprite") { (node, _) -> Void in
             node.position = CGPointMake(node.position.x - PLATFORM_TILE_SPRITE_SCROLL_RATE, node.position.y)
             if node.position.x < -node.frame.size.width {
@@ -260,35 +268,35 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
-
-    func createPlatformsForUpdate() {
+    
+    func createPlatforms() {
         createPlatformCounter += 1
         
         if (createPlatformCounter > createPlatformDelay) {
             createPlatformCounter = 0
             createPlatformDelay = randomDelay
             
-            createPlatformSpriteInitial(false)
+            createPlatformSprite(false)
         }
     }
     
-    func checkPlayerStateForUpdate() {
+    func checkPlayerState() {
         if let playerSprite = childNodeWithName("playerSprite") {
             if playerSprite.position.y < -playerSprite.position.y {
                 gameOver = true
             }
         }
     }
-
+    
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
-
+        
         if gameDidStart && !gameOver {
-
-            scrollBackgroundForUpdate()
-            scrollPlatformsForUpdate()
-            createPlatformsForUpdate()
-            checkPlayerStateForUpdate()
+            
+            scrollBackground()
+            scrollPlatforms()
+            createPlatforms()
+            checkPlayerState()
         }
         
         if gameOver && !didRunGameOverSequence {

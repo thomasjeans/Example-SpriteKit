@@ -9,7 +9,8 @@
 import Foundation
 import UIKit
 
-let FONT_NAME = "Futura-CondensedExtraBold"
+let FONT_NAME = "PressStart2P"
+let FONT_SIZE_TITLE: CGFloat = 24.0
 
 let INITIAL_PLATFORM_WIDTH = 18
 let INITIAL_PLATFORM_HEIGHT = 4
